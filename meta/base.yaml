@@ -2,6 +2,7 @@
     - ~/.config
 
 - link:
+    ~/.dotfiles: ''
     ~/.gitconfig: gitconfig
 
 - clean: ['~']
