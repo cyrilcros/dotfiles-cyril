@@ -1,5 +1,5 @@
 - link:
-  ~/.vimrc: vimrc
+    ~/.vimrc: vimrc
 
 - create:
     - ~/.vim
