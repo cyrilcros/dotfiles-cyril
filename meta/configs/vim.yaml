@@ -1,2 +1,5 @@
 - link:
-  ~/.vim: vim
+  ~/.vimrc: vimrc
+
+- create:
+    - ~/.vim

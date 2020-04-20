@@ -1,0 +1,7 @@
+- create:
+    - ~/.config
+
+- link:
+    ~/.gitconfig: gitconfig
+
+- clean: ['~']

@@ -4,4 +4,3 @@
 - shell:
     - meta/configs/conda-installer.sh
 
-- clean: ['~']
