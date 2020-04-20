@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 BASE_CONFIG="base"
 CONFIG_SUFFIX=".yaml"
