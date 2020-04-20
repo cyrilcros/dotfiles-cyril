@@ -1,0 +1,38 @@
+#
+# These things are run when an Openbox X Session is started.
+# You may place a similar script in $HOME/.config/openbox/autostart
+# to run user-specific things.
+#
+
+# Wallpaper
+sh ~/.fehbg &
+
+# Compositing
+compton -b &
+
+# Bar
+tint2 &
+
+# Volume
+#pasystray &
+
+# Battery
+#cbatticon &
+
+# Terminator
+terminator &
+
+# Night display
+#redshift-gtk &
+
+# Dropbox
+#dropbox &
+
+# NetworkManager
+#nm-applet &
+
+# PCManFM
+#pcmanfm -d
+
+# Mount ftp server contents
+#sudo mount --rbind /mnt/share/Torrents /srv/ftp/ContentsCyril &
