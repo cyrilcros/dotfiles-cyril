@@ -1,5 +1,2 @@
 - link:
   ~/.vim: vim
-  ~/.vimrc:
-    relink: true
-    path: vimrc
