@@ -1,6 +1,9 @@
 - link:
     ~/.condarc: condarc
 
+- link:
+        ~/.config/jupytext.yaml: .config/jupytext.yaml
+
 - shell:
     - meta/configs/conda-installer.sh
 
