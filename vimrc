@@ -21,7 +21,8 @@ silent! if plug#begin()
 	Plug 'tmux-plugins/vim-tmux'          " Tmux syntax highlighting
 	Plug 'godlygeek/tabular'              " Table formatting
 	Plug 'gabrielelana/vim-markdown'      " Markdown
-	Plug 'scrooloose/nerdtree'             " File hierarchy	
+	Plug 'scrooloose/nerdtree'            " File hierarchy
+        Plug 'lervag/vimtex'                  " Latex
 
 " Initialize plugin system
 	call plug#end()
@@ -36,6 +37,10 @@ endif
 " 	PlugDiff
 " 	PlugInstall
 " 	PlugSnapshot [output_path]
+
+" Variables for Latex
+filetype plugin indent on
+syntax enable
 
 " Parameters
 set lazyredraw       " speed up macros by avoiding to redraw
