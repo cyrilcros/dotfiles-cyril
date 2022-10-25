@@ -1,0 +1,4 @@
+- link:
+    ~/.config/lf:
+      create: true
+      path: config/lf
