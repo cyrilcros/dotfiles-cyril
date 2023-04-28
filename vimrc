@@ -1,4 +1,3 @@
-" M
 " ############  vim-plug ###########
 " download vim-plug if missing
 if empty(glob("~/.vim/autoload/plug.vim"))
