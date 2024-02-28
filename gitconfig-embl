@@ -21,3 +21,5 @@
 	defaultBranch = main
 [credential]
 	helper = cache
+[pack]
+	sparse = true
