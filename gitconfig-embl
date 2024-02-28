@@ -23,3 +23,5 @@
 	helper = cache
 [pack]
 	sparse = true
+[includeIf "gitdir:~/dotfiles-cyril"]
+  path = ~/dotfiles-cyril/gitconfig-X
