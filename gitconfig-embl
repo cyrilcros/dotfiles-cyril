@@ -1,6 +1,9 @@
 [user]
 	email = cyril.cros@embl.de
 	name = cyril.cros
+[includeIf "gitdir:~/dotfiles-cyril"]
+	email = cyril.cros@polytechnique.org
+	name = cyril.cros
 [color]
 	ui = auto
 [diff]
@@ -23,5 +26,3 @@
 	helper = cache
 [pack]
 	sparse = true
-[includeIf "gitdir:~/dotfiles-cyril"]
-  path = ~/dotfiles-cyril/gitconfig-X
