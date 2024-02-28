@@ -10,7 +10,7 @@
 [difftool]
 	prompt = false
 [alias]
-	blame = blaame -w -C -C -C
+	blaame = blame -w -C -C -C
 	diffw = diff --word-diff
 	staash = stash --all
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
