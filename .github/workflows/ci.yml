@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-templates:
+    name: Validate chezmoi templates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
+
+      - name: Add chezmoi to PATH
+        run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Validate templates (embl profile)
+        run: |
+          mkdir -p ~/.config/chezmoi
+          cat > ~/.config/chezmoi/chezmoi.toml << 'TOML'
+          sourceDir = "$(pwd)"
+          [data]
+          profile = "embl"
+          TOML
+
+          failed=0
+          while IFS= read -r f; do
+            printf '→ %s\n' "$f"
+            chezmoi execute-template < "$f" > /dev/null || { printf 'FAILED: %s\n' "$f"; failed=1; }
+          done < <(find home -name '*.tmpl' \
+            ! -name '.chezmoi.toml.tmpl' \
+            ! -path '*/.git/*')
+          exit "$failed"
+
+      - name: Validate templates (personal profile)
+        run: |
+          cat > ~/.config/chezmoi/chezmoi.toml << 'TOML'
+          sourceDir = "$(pwd)"
+          [data]
+          profile = "personal"
+          TOML
+
+          failed=0
+          while IFS= read -r f; do
+            printf '→ %s\n' "$f"
+            chezmoi execute-template < "$f" > /dev/null || { printf 'FAILED: %s\n' "$f"; failed=1; }
+          done < <(find home -name '*.tmpl' \
+            ! -name '.chezmoi.toml.tmpl' \
+            ! -path '*/.git/*')
+          exit "$failed"
+
+  shellcheck:
+    name: ShellCheck scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          severity: warning
+          scandir: './home/.chezmoiscripts'

@@ -1,0 +1,49 @@
+# See https://pre-commit.com/ for installation and usage.
+#
+# Install:   pre-commit install
+# Run:       pre-commit run --all-files
+
+default_install_hook_types:
+  - pre-commit
+
+repos:
+  # Built-in file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: check-executables-have-shebangs
+        exclude: '.*\.tmpl$'
+      - id: check-shebang-scripts-are-executable
+        exclude: '.*\.tmpl$'
+      - id: detect-private-key
+
+  # ShellCheck
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        exclude: '.*\.(tmpl)$'
+
+  # YAML linting
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.37.1
+    hooks:
+      - id: yamllint
+        args: [--strict]
+
+  # GitHub Actions linting
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.7
+    hooks:
+      - id: actionlint
+
+      # Chezmoi template validation disabled — add back when chezmoi is on PATH
+      # See .github/workflows/ci.yml for CI-side template validation.

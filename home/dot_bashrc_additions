@@ -59,7 +59,7 @@ fi
 
 
 
-# Define a function for Terminator / Tmux 
+# Define a function for Terminator / Tmux
 drop_into_fish_or_tmux()
 {
 if [ -x /usr/bin/fish ] ; then
@@ -75,7 +75,7 @@ if ! pgrep -u "$USER" ssh-agent > /dev/null; then
 	ssh-agent > ~/.ssh-agent-thing
 fi
 if [[ "$SSH_AGENT_PID" == "" ]]; then
-	eval "$(<~/.ssh-agent-thing)" &> /dev/null 
+	eval "$(<~/.ssh-agent-thing)" &> /dev/null
 fi
 
 # Start nvidia-xrun if required
