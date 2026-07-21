@@ -84,5 +84,5 @@ if [ -x /usr/bin/nvidia-xrun ] && [ "$(tty)" = "/dev/tty1" ]; then
 fi
 
 # Set editor
-export VISUAL=vim
+export VISUAL=vi
 export EDITOR="$VISUAL"

@@ -14,8 +14,8 @@ silent! if plug#begin()
 	Plug 'tpope/vim-commentary'           " Code comments
 	Plug 'junegunn/vim-easy-align'        " Alignment
 	Plug 'jmcantrell/vim-virtualenv'      " Python integration
-	Plug 'vim-airline/vim-airline'        " Status line
-	Plug 'vim-airline/vim-airline-themes' " Themes for airline
+	" Plug 'vim-airline/vim-airline'        " Status line
+	" Plug 'vim-airline/vim-airline-themes' " Themes for airline
 	Plug 'Yggdroot/indentLine'            " Display indentation
 	Plug 'tmux-plugins/vim-tmux'          " Tmux syntax highlighting
 	Plug 'godlygeek/tabular'              " Table formatting
