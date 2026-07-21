@@ -1,5 +1,0 @@
-- link:
-    ~/.bashrc_additions: bashrc_additions
-
-- shell:
-    - if ! grep -q 'bashrc_additions' ~/.bashrc; then echo '[[ -f  ~/.bashrc_additions ]] && source ~/.bashrc_additions' >> ~/.bashrc; fi
