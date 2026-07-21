@@ -27,8 +27,17 @@ Any edit to these paths means the file is chezmoi-managed — follow the workflo
 
 ### Before Editing
 
-1. Run `chezmoi diff`. If remote changes exist, run `chezmoi update` first.
-2. If you have uncommitted local changes, warn the user before overwriting.
+1. Run `chezmoi diff`. This shows all drift — unapplied remote commits,
+   local edits to destination files, or both.
+2. **If remote changes exist** (new commits in source): run `chezmoi update`
+   first to pull and apply them. This is a `git pull --rebase` + `chezmoi apply`.
+3. **If local destination edits exist** (user touched `~/.file` directly):
+   after pulling, run `chezmoi add ~/.file` to re-import the edit into the
+   source tree. Then `chezmoi apply` will commit it.
+4. **If both remote and local changes exist**: run `chezmoi update` first,
+   then `chezmoi add` the locally-modified files to re-import them on top.
+   Since it's all git, any clashes are resolved by `chezmoi update` rebasing.
+5. Warn the user before any action that would overwrite uncommitted work.
 
 ### Editing
 
@@ -39,6 +48,8 @@ Any edit to these paths means the file is chezmoi-managed — follow the workflo
 ### After Editing
 
 - Run `chezmoi apply` — deploys to `$HOME` and auto-commits.
+- If local edits were made directly to destinations, use `chezmoi add`
+  BEFORE `chezmoi apply` to import them into source first.
 - Remind the user to push: `chezmoi git push` or `git push` from source dir.
 
 ### New Files
