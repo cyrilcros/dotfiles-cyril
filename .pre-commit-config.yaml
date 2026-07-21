@@ -25,6 +25,12 @@ repos:
         exclude: '.*\.tmpl$'
       - id: detect-private-key
 
+  # Secrets detection
+  - repo: https://github.com/betterleaks/betterleaks
+    rev: v1.6.1
+    hooks:
+      - id: betterleaks
+
   # ShellCheck
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1
