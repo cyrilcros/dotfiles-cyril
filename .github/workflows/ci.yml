@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, converting_to_chezmoi]
+    branches: ['**']
   pull_request:
     branches: [main]
 
@@ -10,6 +10,23 @@ permissions:
   contents: read
 
 jobs:
+  secrets:
+    name: Secret scanning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install betterleaks
+        run: |
+          curl -fsSL https://github.com/betterleaks/betterleaks/releases/latest/download/betterleaks-linux-amd64 \
+            -o /usr/local/bin/betterleaks
+          chmod +x /usr/local/bin/betterleaks
+
+      - name: Scan for secrets
+        run: betterleaks git . --no-git
+
   validate-templates:
     name: Validate chezmoi templates
     runs-on: ubuntu-latest
