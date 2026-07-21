@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, converting_to_chezmoi]
   pull_request:
     branches: [main]
 
