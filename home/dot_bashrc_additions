@@ -89,3 +89,32 @@ fi
 # Set editor
 export VISUAL=vi
 export EDITOR="$VISUAL"
+
+# opencode
+export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
+
+# herdr multiplexer: auto-assign --port so subagents can spawn panes
+omos() {
+  local port=""
+  local args=("$@")
+  local i
+  for ((i = 0; i < ${#args[@]}; i++)); do
+    if [[ "${args[i]}" == --port=* ]]; then
+      port="${args[i]#--port=}"
+      break
+    elif [[ "${args[i]}" == --port ]] && ((i + 1 < ${#args[@]})); then
+      port="${args[i + 1]}"
+      break
+    fi
+  done
+  if [[ -n "$port" ]]; then
+    OPENCODE_PORT="$port" command opencode "$@"
+    return
+  fi
+  port=$(python3 -c 'import socket; s = socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1]); s.close()') || return
+  OPENCODE_PORT="$port" command opencode --port "$port" "$@"
+}
+
+# herdr + zellij (replaces tmuxinator embl)
+alias embl-shell='zellij --layout embl'
+alias embl-code='herdr'
