@@ -85,12 +85,44 @@ tw login    # Seqera — opens browser for token
 
 ## Private files (not in git)
 
-These must be created manually on each machine:
+These files are chezmoi-managed with `private_` prefix (0600 permissions) but
+gitignored. On a new machine they must be created manually.
 
-| File | Purpose |
-|------|---------|
-| `~/.opencode_env` | `CONTEXT7_API_KEY` for Context7 MCP |
-| `~/.hpc_config` | HPC user, group, data dir, SSH key path |
+### `~/.opencode_env`
+
+```bash
+cat > ~/.opencode_env << 'EOF'
+export CONTEXT7_API_KEY=<key from context7.com>
+EOF
+```
+
+### `~/.hpc_config`
+
+```bash
+cat > ~/.hpc_config << 'EOF'
+HPC_USER=<cluster username>
+HPC_GROUP=<cluster group>
+HPC_DATA_DIR=/g/$GROUP/$USER
+HPC_SSH_KEY=~/.ssh/id_rsa_gitlab
+EOF
+```
+
+### `~/.hpc_reference`
+
+Cluster hostnames, service URLs, SSH fingerprints, and filesystem paths used by
+the embl-hpc skill. EMBL-internal — copy from an existing machine or the
+cluster wiki.
+
+```bash
+cat > ~/.hpc_reference << 'EOF'
+LOGIN_NODES=login1.cluster.embl.de login2.cluster.embl.de
+SLURM_REST_API=https://slurmrest.cluster.embl.de
+JUPYTERHUB=https://jupyterhub.embl.de
+INTERNAL_GITLAB=https://git.embl.de
+REGISTRY_MIRROR=regmirror.embl.de
+# ... (copy full file from an existing machine)
+EOF
+```
 
 ## What's managed by chezmoi
 
