@@ -5,20 +5,10 @@ Managed with [chezmoi](https://www.chezmoi.io/).
 ## Quick start
 
 ```bash
-chezmoi init --apply cyrilcros/dotfiles-cyril
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply cyrilcros/dotfiles-cyril
 ```
 
 During init you'll be prompted to choose your git profile (`embl` or `personal`).
-
-## Manual install
-
-```bash
-# Install chezmoi
-sh -c "$(curl -fsLS https://get.chezmoi.io)"
-
-# Clone and apply
-chezmoi init --apply git@github.com:cyrilcros/dotfiles-cyril.git
-```
 
 ## What's included
 
@@ -30,3 +20,88 @@ chezmoi init --apply git@github.com:cyrilcros/dotfiles-cyril.git
 | git | `.gitconfig` (templated: EMBL or personal) |
 | conda | `.condarc` + auto-installer |
 | lf | `~/.config/lf/lfrc` |
+| opencode | Full config — models, MCP servers, skills, theme |
+
+## Full machine setup
+
+### 1. Core dotfiles
+
+```bash
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply cyrilcros/dotfiles-cyril
+```
+
+### 2. CLI tools
+
+```bash
+# GitHub CLI
+(type -p wget >/dev/null || sudo apt install wget -y) \
+  && sudo mkdir -p -m 755 /etc/apt/keyrings \
+  && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+  && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+  && echo "deb [signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+  && sudo apt update \
+  && sudo apt install gh -y
+
+# GitLab CLI
+sudo apt install glab -y
+# or: snap install glab
+
+# Seqera CLI (for Seqera Platform / Nextflow Tower)
+curl -fsSL https://github.com/seqeralabs/tower-cli/releases/latest/download/tw-linux-x86_64 -o ~/.local/bin/tw \
+  && chmod +x ~/.local/bin/tw
+```
+
+### 3. OpenCode
+
+```bash
+# Install binary
+curl -fsSL https://opencode.ai/install.sh | sh
+# → installs to ~/.opencode/bin/opencode
+
+# Create private credential files (NOT in version control)
+cat > ~/.opencode_env << 'EOF'
+export CONTEXT7_API_KEY=<your-context7-key>
+EOF
+
+# HPC cluster (if applicable)
+cat > ~/.hpc_config << 'EOF'
+HPC_USER=<your-user>
+HPC_GROUP=<your-group>
+HPC_DATA_DIR=/g/<group>/<user>
+HPC_SSH_KEY=~/.ssh/id_rsa_gitlab
+EOF
+
+# Launch — plugins and skills auto-install on first run
+opencode
+```
+
+### 4. Authenticate CLIs
+
+```bash
+gh auth login
+glab auth login
+tw login    # Seqera — opens browser for token
+```
+
+## Private files (not in git)
+
+These must be created manually on each machine:
+
+| File | Purpose |
+|------|---------|
+| `~/.opencode_env` | `CONTEXT7_API_KEY` for Context7 MCP |
+| `~/.hpc_config` | HPC user, group, data dir, SSH key path |
+
+## What's managed by chezmoi
+
+| Category | Files |
+|----------|-------|
+| Shell | `dot_bashrc_additions` |
+| Editor | `dot_vimrc` |
+| Terminal | `dot_tmux.conf` |
+| Git | `dot_gitconfig.tmpl` (profile-based) |
+| Conda | `dot_condarc` |
+| File manager | `dot_config/lf/lfrc` |
+| OpenCode config | `opencode.jsonc`, `oh-my-opencode-slim.json`, `AGENTS.md`, `tui.json` |
+| OpenCode skills | `co-scientist`, `embl-hpc` (with wiki references) |
+| Scripts | `run_once_append-bashrc.sh`, `run_once_install-conda.sh` |
