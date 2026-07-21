@@ -1,3 +1,7 @@
 # chezmoi managed — nothing to ignore at root
 home/private_*
 bin/
+
+# HPC wiki files — EMBL-internal, not for public repo
+home/dot_config/opencode/skills/embl-hpc/*Wiki.md
+home/dot_config/opencode/skills/embl-hpc/modules_*.txt

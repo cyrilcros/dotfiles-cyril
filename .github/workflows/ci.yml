@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  security-events: write
 
 jobs:
   secrets:
@@ -18,14 +19,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install betterleaks
-        run: |
-          curl -fsSL https://github.com/betterleaks/betterleaks/releases/latest/download/betterleaks-linux-amd64 \
-            -o /usr/local/bin/betterleaks
-          chmod +x /usr/local/bin/betterleaks
-
-      - name: Scan for secrets
-        run: betterleaks git . --no-git
+      - uses: dortort/betterleaks-action@v0.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   validate-templates:
     name: Validate chezmoi templates

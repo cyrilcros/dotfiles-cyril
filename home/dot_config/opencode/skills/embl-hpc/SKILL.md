@@ -24,6 +24,18 @@ Before connecting, read `~/.hpc_config` for the current machine's HPC credential
 
 Use these values in place of any hardcoded usernames or paths in commands below.
 
+## Infrastructure Reference
+
+Read `~/.hpc_reference` for the cluster's actual hostnames, service URLs, SSH fingerprints, and filesystem paths. This file is NOT version-controlled. Key entries include:
+
+- `LOGIN_NODES`, `GENERIC_CLUSTER` — SSH hostnames
+- `SLURM_REST_API`, `JUPYTERHUB`, `INTERNAL_GITLAB`, `INTERNAL_WIKI` — internal service URLs
+- `REGISTRY_MIRROR` — container registry prefix for Docker/Singularity images
+- `FINGERPRINT_LOGIN1`, `FINGERPRINT_LOGIN2` — SSH host key fingerprints
+- `EASYBUILD_MOUNT`, `PROGRAMS_PATH` — shared filesystem paths
+
+Use the values from `~/.hpc_reference` whenever you need to construct SSH commands, API calls, or image references.
+
 ## How to connect to the cluster
 
 You can use the `cluster` alias to connect to a login node via SSH. When running commands, use the credentials from `~/.hpc_config`. The data directory is `$HPC_DATA_DIR`.
@@ -52,7 +64,7 @@ You have access to pages from a Wiki for the cluster in this skill folder. You m
 5. **Deploy Flow:**
    - SSH in and pull from the EMBL GitLab if needed: `eval $(ssh-agent)`, `ssh-add $HPC_SSH_KEY` (passwordless), `module load Miniforge3 git Nextflow`, then `git pull`.
    - Generate or update the `sbatch` script locally. Use `scp LOCAL_PATH cluster:/scratch/$HPC_USER/` to transfer the script to the cluster, then `ssh cluster "sbatch /scratch/$HPC_USER/the_script.sh"`.
-6. **Container images via EMBL registry mirror.** When using Docker or container images (e.g., in GitLab CI, Singularity, or Apptainer), prefix image names with `regmirror.embl.de/` instead of pulling directly from Docker Hub. For example:
-   - `regmirror.embl.de/library/python:3.12` instead of `python:3.12`
-   - `regmirror.embl.de/nextflow/nextflow:26.04.4` instead of `nextflow/nextflow:26.04.4`
+6. **Container images.** When using Docker or container images (e.g., in GitLab CI, Singularity, or Apptainer), prefix image names with the `REGISTRY_MIRROR` value from `~/.hpc_reference` instead of pulling directly from Docker Hub. For example:
+   - `<REGISTRY_MIRROR>/library/python:3.12` instead of `python:3.12`
+   - `<REGISTRY_MIRROR>/nextflow/nextflow:26.04.4` instead of `nextflow/nextflow:26.04.4`
 7. If you launch a SLURM job, use the SLURM REST API to get a token, and then poll the job queue (using the user from `~/.hpc_config` only, not everybody) until the job is running. Wait 10s / 20s / 30s (just sleep then poll again).
