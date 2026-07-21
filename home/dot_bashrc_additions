@@ -1,5 +1,8 @@
 # Those lines should be included in.bashrc
 
+# OpenCode environment (API keys)
+[[ -f ~/.opencode_env ]] && source ~/.opencode_env
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
